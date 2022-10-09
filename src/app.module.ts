@@ -11,6 +11,6 @@ import { PostService } from './service/post.service';
 })
 export class AppModule implements NestModule{
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthenMiddleware).forRoutes('post/create', 'user/info')
+    consumer.apply(AuthenMiddleware).forRoutes('post/create')
   }
 }

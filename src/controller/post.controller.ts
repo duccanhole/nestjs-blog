@@ -1,5 +1,5 @@
-import { Body, Controller, Get, Param, Post } from "@nestjs/common";
-import { PostDto } from "src/interfaces/post.interface";
+import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
+import PostDto from "src/interfaces/post.interface";
 import { PostService } from "src/service/post.service";
 
 
@@ -12,7 +12,11 @@ export class PostController{
         this.postService.create(newPost);
     }
     @Get(':id')
-    async getDetail(@Param() id){
+    getDetailPosts(@Param() id){
         return id;
     }
+    @Put(':id')
+    updatePosts(){}
+    @Delete(':id')
+    deletePosts(){}
 }

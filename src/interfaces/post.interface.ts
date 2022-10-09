@@ -1,4 +1,4 @@
-export interface PostDto {
+export default interface PostsDto {
     title: String,
     subtitle: String
     describle: String,
