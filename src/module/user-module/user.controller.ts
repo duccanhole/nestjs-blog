@@ -20,6 +20,18 @@ export class UserController {
       });
     }
   }
+  @Post('login')
+  async login(@Body() userInfo: UserInfo, @Res() res: Response) {
+    try {
+      res.send({
+        results: await this.userService.login(userInfo)
+      })
+    } catch (error) {
+      res.status(error?.status).json({
+        message: error?.message
+      })
+    }
+  }
   @Get('all')
   getAll() {
     return this.userService.getAll();
