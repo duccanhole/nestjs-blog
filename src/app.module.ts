@@ -1,16 +1,31 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { PostController } from './controller/post.controller';
-import { UserController } from './controller/user.controller';
+import { MongooseModule } from '@nestjs/mongoose';
 import { AuthenMiddleware } from './middleware/auth.middleware';
-import { PostService } from './service/post.service';
+import { PostsModule } from './module/post-module/post.module';
+import { UserModule } from './module/user-module/user.module';
 
 @Module({
-  imports: [],
-  controllers: [UserController, PostController],
-  providers: [PostService]
+  imports: [
+    MongooseModule.forRoot(
+      'mongodb+srv://duccanhole:123duc123@cluster0.kfwqu3z.mongodb.net/db',
+      {
+        connectionName: 'posts'
+      }
+    ),
+    MongooseModule.forRoot(
+      'mongodb+srv://duccanhole:123duc123@cluster0.kfwqu3z.mongodb.net/db',
+      {
+        connectionName: 'users'
+      }
+    ),
+    PostsModule,
+    UserModule
+  ],
+  controllers: [],
+  providers: [],
 })
-export class AppModule implements NestModule{
+export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthenMiddleware).forRoutes('post/create')
+    consumer.apply(AuthenMiddleware).forRoutes('post/create');
   }
 }
