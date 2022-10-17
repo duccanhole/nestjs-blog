@@ -6,19 +6,27 @@ import {
   Param,
   Post,
   Put,
+  Res,
+  UseGuards,
 } from '@nestjs/common';
-import { PostsDto } from './posts.dto';
 import { PostService } from './post.service';
+import { PostForm } from './dto/post-form.dto';
+import { JwtAuthGuard } from '../auth-module/guards/jwt.guard';
+import { Response } from 'express';
 
 @Controller('post')
 export class PostController {
   constructor(private postService: PostService) {}
   @Get('all')
-  getAll(){
-    return this.postService.search()
+  getAll() {
+    return this.postService.search();
   }
   @Post('create')
-  create(@Body() newPost: PostsDto) {
+  @UseGuards(JwtAuthGuard)
+  create(@Body() postData: PostForm, @Res() res: Response) {
+    res.send({
+      postData
+    })
   }
   @Get(':id')
   getDetailPosts(@Param() id) {
