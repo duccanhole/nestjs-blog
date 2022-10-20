@@ -3,7 +3,9 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
   Param,
+  ParamData,
   Post,
   Put,
   Res,
@@ -21,12 +23,28 @@ export class PostController {
   getAll() {
     return this.postService.search();
   }
+  @Get(':postId')
+  async getPostDetail(@Param('postId') postId: string, @Res() res: Response) {
+    try {
+      return res.send({
+        results: await this.postService.getDetail(postId),
+      });
+    } catch (error) {
+      res.send(error);
+    }
+  }
   @Post('create')
+  @HttpCode(200)
   @UseGuards(JwtAuthGuard)
-  create(@Body() postData: PostForm, @Res() res: Response) {
-    res.send({
-      postData
-    })
+  async create(@Body() postData: PostForm, @Res() res: Response) {
+    try {
+      await this.postService.create(postData);
+      res.send({
+        message: 'Success',
+      });
+    } catch (error) {
+      res.send(error);
+    }
   }
   @Get(':id')
   getDetailPosts(@Param() id) {
