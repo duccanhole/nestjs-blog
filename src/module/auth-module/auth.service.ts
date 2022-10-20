@@ -6,8 +6,6 @@ import { UserDto } from '../user-module/dto/user.dto';
 export class AuthService {
   constructor(private readonly jwtService: JwtService) {}
   async generateToken(userInfo: UserDto) {
-    return {
-      token: this.jwtService.sign({ userName: userInfo.userName }),
-    };
+    return this.jwtService.sign({ userName: userInfo.userName });
   }
 }

@@ -10,7 +10,7 @@ import { AuthService } from '../auth-module/auth.service';
 export class UserService {
   constructor(
     @InjectModel(User.name, 'users') private userModel: Model<UserDocument>,
-    private authService: AuthService
+    private authService: AuthService,
   ) {}
 
   async register(userInfo: UserInfo) {
@@ -34,18 +34,25 @@ export class UserService {
     }
   }
 
-  async login(userInfo: UserInfo){
+  async login(userInfo: UserInfo) {
     const user = await this.userModel.findOne({ userName: userInfo.userName });
-    if(user) {
-      const checkPassword = await bcrypt.compareSync(userInfo.password, user.password);
-      if(checkPassword) {
-        return await this.authService.generateToken(userInfo);
+    if (user) {
+      const checkPassword = await bcrypt.compareSync(
+        userInfo.password,
+        user.password,
+      );
+      if (checkPassword) {
+        return {
+          token: await this.authService.generateToken(userInfo),
+          userId: user._id,
+        };
+      } else {
+        throw new HttpException(
+          'Username or password is incorrect',
+          HttpStatus.UNAUTHORIZED,
+        );
       }
-      else {
-        throw new HttpException('Username or password is incorrect', HttpStatus.UNAUTHORIZED);
-      }
-    }
-    else {
+    } else {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
   }
