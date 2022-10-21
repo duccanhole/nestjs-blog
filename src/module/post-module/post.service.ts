@@ -21,7 +21,15 @@ export class PostService {
     await this.postModel.create(newPost);
   }
   async getDetail(id: String) {
-    return await (await this.postModel.findById(id)).populate('createdBy');
+    try {
+      return await this.postModel
+        .findById(id)
+        .populate({ path: 'createdBy', select: '_id' })
+        .populate({ path: 'createdBy', select: 'userName' })
+        .exec();
+    } catch (error) {
+      throw error;
+    }
   }
   search() {
     return this.postModel.find().exec();
