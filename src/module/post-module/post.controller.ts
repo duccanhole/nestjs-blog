@@ -5,7 +5,6 @@ import {
   Get,
   HttpCode,
   Param,
-  ParamData,
   Post,
   Put,
   Res,
@@ -23,6 +22,7 @@ export class PostController {
   getAll() {
     return this.postService.search();
   }
+  // get detail post data
   @Get(':postId')
   async getPostDetail(@Param('postId') postId: string, @Res() res: Response) {
     try {
@@ -33,6 +33,7 @@ export class PostController {
       res.send(error);
     }
   }
+  // create new post
   @Post('create')
   @HttpCode(200)
   @UseGuards(JwtAuthGuard)
@@ -46,9 +47,18 @@ export class PostController {
       res.send(error);
     }
   }
-  @Get(':id')
-  getDetailPosts(@Param() id) {
-    return id;
+  // get post of user
+  @Get('posted/:userId')
+  @UseGuards(JwtAuthGuard)
+  async getUserPosted(@Param('userId') userId, @Res() res: Response) {
+    try {
+      res.send({
+        results: await this.postService.getPosted(userId)
+      })
+    }
+    catch(error){
+      res.send(error)
+    }
   }
   @Put(':id')
   updatePosts() {}

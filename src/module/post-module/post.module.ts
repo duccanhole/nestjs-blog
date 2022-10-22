@@ -16,11 +16,11 @@ import { UserModule } from '../user-module/user.module';
           schema: UserSchema,
         },
       ],
-      'posts',
+      'db',
     ),
     UserModule
   ],
   controllers: [PostController],
   providers: [PostService],
 })
-export class PostsModule {}
+export class PostModule {}

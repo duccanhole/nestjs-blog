@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Types } from 'mongoose';
+import { SchemaTypes } from 'mongoose';
 import { User } from '../user-module/user.schema';
 
 export type PostDocument = Post & Document;
@@ -14,7 +14,9 @@ export class Post {
   url: string;
   @Prop({ required: true })
   view: number;
-  @Prop({ required: true, type: Types.ObjectId, ref: User.name })
+  @Prop({ required: true })
+  tags: string;
+  @Prop({ required: true, type: SchemaTypes.ObjectId, ref: User.name })
   createdBy: User;
 }
 export const PostSchema = SchemaFactory.createForClass(Post);

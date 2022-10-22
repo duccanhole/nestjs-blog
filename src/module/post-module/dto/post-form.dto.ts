@@ -1,4 +1,10 @@
-import { IsMongoId, IsString, IsUrl, MinLength } from 'class-validator';
+import {
+  IsArray,
+  IsMongoId,
+  IsString,
+  IsUrl,
+  MinLength,
+} from 'class-validator';
 
 export class PostForm {
   @IsString()
@@ -7,6 +13,8 @@ export class PostForm {
   subtile;
   @IsUrl()
   url;
+  @IsString()
+  tags: string;
   @IsMongoId()
   userId;
 }

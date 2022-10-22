@@ -7,7 +7,7 @@ import { PostForm, Post } from './dto/index';
 @Injectable()
 export class PostService {
   constructor(
-    @InjectModel(Post.name, 'posts') private postModel: Model<PostDocument>,
+    @InjectModel(Post.name, 'db') private postModel: Model<PostDocument>,
   ) {}
 
   async create(postData: PostForm) {
@@ -27,6 +27,13 @@ export class PostService {
         .populate({ path: 'createdBy', select: '_id' })
         .populate({ path: 'createdBy', select: 'userName' })
         .exec();
+    } catch (error) {
+      throw error;
+    }
+  }
+  async getPosted(userId: String) {
+    try {
+      return await this.postModel.find({ createdBy: userId }).exec();
     } catch (error) {
       throw error;
     }
