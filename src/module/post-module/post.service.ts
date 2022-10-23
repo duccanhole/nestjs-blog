@@ -2,12 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { PostDocument } from 'src/module/post-module/post.schema';
-import { PostForm, Post } from './dto/index';
+import { PostForm, Post, PostEdit } from './dto/index';
+import { QuerySearch } from './dto/query-search.dto';
 
 @Injectable()
 export class PostService {
   constructor(
-    @InjectModel(Post.name, 'posts') private postModel: Model<PostDocument>,
+    @InjectModel(Post.name, 'db') private postModel: Model<PostDocument>,
   ) {}
 
   async create(postData: PostForm) {
@@ -16,14 +17,50 @@ export class PostService {
       subTitle: postData?.subtile || '',
       url: postData.url,
       view: 0,
+      tags: postData.tags,
       createdBy: postData.userId,
+      createdAt: new Date().toISOString(),
     };
     await this.postModel.create(newPost);
   }
-  async getDetail(id: String) {
-    return await (await this.postModel.findById(id)).populate('createdBy');
+  async update(postData: PostEdit, postId: string) {
+    try {
+      await this.postModel.findByIdAndUpdate(postId, postData).exec();
+    } catch (error) {
+      throw error;
+    }
   }
-  search() {
-    return this.postModel.find().exec();
+  async remove(postId: string) {
+    try {
+      await this.postModel.findByIdAndDelete(postId).exec();
+    } catch (error) {
+      throw error;
+    }
+  }
+  async getDetail(id: String) {
+    try {
+      return await this.postModel
+        .findById(id)
+        .populate({ path: 'createdBy', select: '_id' })
+        .populate({ path: 'createdBy', select: 'userName' })
+        .exec();
+    } catch (error) {
+      throw error;
+    }
+  }
+  async getPosted(userId: String) {
+    try {
+      return await this.postModel.find({ createdBy: userId }).exec();
+    } catch (error) {
+      throw error;
+    }
+  }
+  async search(query: QuerySearch) {
+    return await this.postModel
+      .find()
+      .skip(query.skip)
+      .limit(query?.limmit || 10)
+      .sort(query?.sortBy || '')
+      .exec();
   }
 }

@@ -1,12 +1,19 @@
-import { IsMongoId, IsString, IsUrl, MinLength } from 'class-validator';
+import {
+  IsMongoId,
+  IsString,
+  IsUrl,
+  MinLength,
+} from 'class-validator';
 
 export class PostForm {
   @IsString()
-  @MinLength(6)
+  @MinLength(3)
   title;
   subtile;
   @IsUrl()
   url;
+  @IsString()
+  tags: string;
   @IsMongoId()
   userId;
 }

@@ -1,7 +1,8 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthenMiddleware } from './middleware/auth.middleware';
-import { PostsModule } from './module/post-module/post.module';
+import { PostModule } from './module/post-module/post.module';
+import { PostSavedModule } from './module/post-saved/post-saved.module';
 import { UserModule } from './module/user-module/user.module';
 
 @Module({
@@ -9,17 +10,12 @@ import { UserModule } from './module/user-module/user.module';
     MongooseModule.forRoot(
       'mongodb+srv://duccanhole:123duc123@cluster0.kfwqu3z.mongodb.net/db',
       {
-        connectionName: 'posts'
+        connectionName: 'db'
       }
     ),
-    MongooseModule.forRoot(
-      'mongodb+srv://duccanhole:123duc123@cluster0.kfwqu3z.mongodb.net/db',
-      {
-        connectionName: 'users'
-      }
-    ),
-    PostsModule,
-    UserModule
+    PostModule,
+    UserModule,
+    PostSavedModule
   ],
   controllers: [],
   providers: [],
