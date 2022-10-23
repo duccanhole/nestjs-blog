@@ -1,5 +1,4 @@
 import {
-  IsArray,
   IsMongoId,
   IsString,
   IsUrl,
@@ -8,7 +7,7 @@ import {
 
 export class PostForm {
   @IsString()
-  @MinLength(6)
+  @MinLength(3)
   title;
   subtile;
   @IsUrl()

@@ -18,5 +18,7 @@ export class Post {
   tags: string;
   @Prop({ required: true, type: SchemaTypes.ObjectId, ref: User.name })
   createdBy: User;
+  @Prop({ required: true })
+  createdAt: Date;
 }
 export const PostSchema = SchemaFactory.createForClass(Post);
