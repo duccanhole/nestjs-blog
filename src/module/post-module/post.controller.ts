@@ -61,6 +61,7 @@ export class PostController {
   }
   // delete
   @Delete(':postId')
+  @UseGuards(JwtAuthGuard)
   async deletePost(@Param('postId') postId: string, @Res() res: Response) {
     try {
       await this.postService.remove(postId);
@@ -86,10 +87,10 @@ export class PostController {
   // get post of user
   @Get('posted/:userId')
   @UseGuards(JwtAuthGuard)
-  async getUserPosted(@Param('userId') userId, @Res() res: Response) {
+  async getUserPosted(@Param('userId') userId, @Res() res: Response,  @Query() query: QuerySearch) {
     try {
       res.send({
-        results: await this.postService.getPosted(userId),
+        results: await this.postService.getPosted(userId, query.skip, query.limmit),
       });
     } catch (error) {
       res.send(error);
