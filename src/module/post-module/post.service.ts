@@ -48,9 +48,13 @@ export class PostService {
       throw error;
     }
   }
-  async getPosted(userId: String) {
+  async getPosted(userId: String, skip = 0, limit = 10) {
     try {
-      return await this.postModel.find({ createdBy: userId }).exec();
+      return await this.postModel
+        .find({ createdBy: userId })
+        .skip(skip)
+        .limit(limit)
+        .exec();
     } catch (error) {
       throw error;
     }
@@ -58,7 +62,7 @@ export class PostService {
   async search(query: QuerySearch) {
     return await this.postModel
       .find()
-      .skip(query.skip)
+      .skip(query?.skip || 0)
       .limit(query?.limmit || 10)
       .sort(query?.sortBy || '')
       .exec();
