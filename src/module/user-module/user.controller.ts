@@ -47,8 +47,4 @@ export class UserController {
       res.send(error);
     }
   }
-  @Get('all')
-  getAll() {
-    return this.userService.getAll();
-  }
 }
