@@ -45,6 +45,7 @@ export class UserService {
         return {
           token: await this.authService.generateToken(userInfo),
           userId: user._id,
+          userName: user.userName
         };
       } else {
         throw new HttpException(
