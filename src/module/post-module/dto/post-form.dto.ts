@@ -9,7 +9,7 @@ export class PostForm {
   @IsString()
   @MinLength(3)
   title;
-  subtile;
+  subtitle;
   @IsUrl()
   url;
   @IsString()
