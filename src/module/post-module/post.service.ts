@@ -14,7 +14,7 @@ export class PostService {
   async create(postData: PostForm) {
     const newPost: Post = {
       title: postData.title,
-      subTitle: postData?.subtile || '',
+      subTitle: postData?.subtitle || '',
       url: postData.url,
       view: 0,
       tags: postData.tags,
