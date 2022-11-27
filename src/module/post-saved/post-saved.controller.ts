@@ -58,6 +58,7 @@ export class PostSavedController {
           userId,
           query.skip,
           query.limit,
+          query.filterBy
         ),
       });
     } catch (error) {

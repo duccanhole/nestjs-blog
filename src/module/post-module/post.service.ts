@@ -64,8 +64,12 @@ export class PostService {
     if (query.sortBy) {
       sortQuery[query.sortBy] = -1;
     }
+    const filterQuery = {};
+    if(query.filterBy) {
+      filterQuery['tags'] = query.filterBy
+    }
     return await this.postModel
-      .find()
+      .find(filterQuery)
       .skip(query?.skip || 0)
       .limit(query?.limmit || 10)
       .sort(sortQuery)
