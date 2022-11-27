@@ -60,11 +60,15 @@ export class PostService {
     }
   }
   async search(query: QuerySearch) {
+    const sortQuery = {};
+    if (query.sortBy) {
+      sortQuery[query.sortBy] = -1;
+    }
     return await this.postModel
       .find()
       .skip(query?.skip || 0)
       .limit(query?.limmit || 10)
-      .sort(query?.sortBy || '')
+      .sort(sortQuery)
       .exec();
   }
 }
