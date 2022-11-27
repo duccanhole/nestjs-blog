@@ -1,6 +1,5 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AuthenMiddleware } from './middleware/auth.middleware';
 import { PostModule } from './module/post-module/post.module';
 import { PostSavedModule } from './module/post-saved/post-saved.module';
 import { UserModule } from './module/user-module/user.module';
@@ -10,18 +9,14 @@ import { UserModule } from './module/user-module/user.module';
     MongooseModule.forRoot(
       'mongodb+srv://duccanhole:123duc123@cluster0.kfwqu3z.mongodb.net/db',
       {
-        connectionName: 'db'
+        connectionName: 'db',
       }
     ),
     PostModule,
     UserModule,
-    PostSavedModule
+    PostSavedModule,
   ],
   controllers: [],
   providers: [],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthenMiddleware).forRoutes('post/create');
-  }
-}
+export class AppModule {}
