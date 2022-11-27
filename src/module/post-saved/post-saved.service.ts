@@ -26,9 +26,20 @@ export class PostSavedService {
   async unsave(userId: String, postId: String) {
     await this.postSavedModel.findByIdAndDelete({ userId, postId }).exec();
   }
-  async getPostSaved(userId: String, skip: number = 0, limit: number = 10) {
+  async getPostSaved(
+    userId: String,
+    skip: number = 0,
+    limit: number = 10,
+    filterBy = null,
+  ) {
+    const filterQuery = {
+      userId,
+    };
+    if (filterBy) {
+      filterQuery['tags'] = filterBy;
+    }
     return await this.postSavedModel
-      .find({ userId })
+      .find(filterQuery)
       .populate('postId')
       .skip(skip)
       .limit(limit)

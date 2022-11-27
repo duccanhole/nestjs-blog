@@ -1,4 +1,4 @@
-import { IsNumberString, IsOptional } from 'class-validator';
+import { IsNumberString, IsOptional, IsString } from 'class-validator';
 
 export class QuerySearch {
   @IsNumberString()
@@ -7,4 +7,7 @@ export class QuerySearch {
   @IsNumberString()
   @IsOptional()
   limit;
+  @IsString()
+  @IsOptional()
+  filterBy;
 }

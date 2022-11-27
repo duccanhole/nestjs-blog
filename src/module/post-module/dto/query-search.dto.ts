@@ -10,4 +10,7 @@ export class QuerySearch {
   @IsOptional()
   @IsString()
   sortBy: string;
+  @IsOptional()
+  @IsString()
+  filterBy: string
 }
