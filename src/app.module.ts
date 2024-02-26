@@ -7,7 +7,7 @@ import { UserModule } from './module/user-module/user.module';
 @Module({
   imports: [
     MongooseModule.forRoot(
-      'mongodb+srv://duccanhole:123duc123@cluster0.kfwqu3z.mongodb.net/db',
+      process.env.DB_URI,
       {
         connectionName: 'db',
       }
